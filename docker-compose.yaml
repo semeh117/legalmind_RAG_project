@@ -6,10 +6,13 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      # python:3.13-slim has no curl, so the check uses Python instead
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 10s
       timeout: 5s
       retries: 5
+      # first start downloads the embedding model before the API is up
+      start_period: 120s
 
   frontend:
     build: ./frontend
