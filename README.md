@@ -52,8 +52,8 @@ PDF Upload → Text Extraction → Chunking → Embedding → ChromaDB
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/semah117/legalmind.git
-cd legalmind
+git clone https://github.com/semeh117/legalmind_RAG_project.git
+cd legalmind_RAG_project
 ```
 
 ### 2. Set up environment variables
@@ -119,6 +119,9 @@ With top-K = 2, *"Who owns the code and data pipelines the employee builds?"* go
 
 The small Faithfulness drop is the judge seeing *more* context and flagging that the total-compensation answer omits the stipend and RSUs — a real limitation, previously hidden.
 
+### Choosing the judge
+The first judge, a local `llama3.1:8b`, scored correct answers 0.00 — e.g. it called *"20 days of PTO per calendar year"* a contradiction of the contract. Switching to `qwen/qwen3.8-27b` took Faithfulness from **0.59 to 0.97 on the same answers**: the low scores were the judge's mistakes, not LegalMind's. Lesson: read the judge's reasons, not just the numbers, and use a judge at least as capable as the model it grades.
+
 **Known limitations**
 - The correct chunk is sometimes retrieved but ranked low (a reranker would help)
 - Multi-step questions whose facts live in different sections can miss one of them
@@ -166,6 +169,6 @@ legalmind/
 
 ## 👤 Author
 
-**Semah** — [@semah117](https://github.com/semah117)
+**Semah** — [@semeh117](https://github.com/semeh117)
 
 Data Science & AI Engineering Student — École Polytechnique de Sousse
