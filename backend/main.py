@@ -1,5 +1,4 @@
 import os
-from re import search
 import shutil
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel 
