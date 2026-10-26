@@ -1,5 +1,4 @@
 import os
-from re import search
 from groq import Groq
 from dotenv import load_dotenv
 # Load environment variables from .env file
@@ -36,30 +35,10 @@ def get_answer(question: str, chunks : list[dict]) -> str:
    """Get an answer from the LLM based on the question and the retrieved chunks."""
    prompt = build_prompt(question, chunks)
    response = client.chat.completions.create(
-      model="llama-3.3-70b-versatile",
+      model="openai/gpt-oss-120b",
       messages=[
          {"role": "user", "content": prompt}
       ],
       max_tokens=500
    )
    return response.choices[0].message.content
-
-
-#test the function
-if __name__ == "__main__":
-    from ingestion import extract_text_from_pdf, split_into_chunks
-    from embeddings import embed_chunks
-    from retrieval import store, retrieve
-
-    # Full pipeline test
-    pages = extract_text_from_pdf(r"C:\Users\mechi\Desktop\legalmind\sample_docs\test.pdf")
-    chunks = split_into_chunks(pages)
-    embedded_chunks = embed_chunks(chunks)
-    store(embedded_chunks)
-
-    question = "what are the confidentiality obligations?"
-    results = retrieve(question)
-    answer = get_answer(question, results)
-    
-    print(f"Question: {question}")
-    print(f"\nAnswer: {answer}")
